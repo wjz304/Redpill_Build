@@ -1,0 +1,89 @@
+name: Redpill Build
+
+on:
+  workflow_call:
+
+
+jobs:
+  Redpill-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@main
+
+      - name: checkinput
+        run: |
+          function ArchitectureArray() {
+
+              case $1 in
+              DS3615xs)
+                  architecture="bromolow"
+                  ;;
+              DS3617xs)
+                  architecture="broadwell"
+                  ;;
+              DS918+)
+                  architecture="apollolake"
+                  ;;
+              DS920+)
+                  architecture="geminilake"
+                  ;;
+              DS3622xs+)
+                  architecture="broadwellnk"
+                  ;;
+              esac
+          }
+          ArchitectureArray ${{ github.event.inputs.platform }}
+          echo "architecture=${architecture}" >> $GITHUB_ENV
+          echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+          echo ${{ env.architecture }}
+          echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
+      - name: Init Env
+        run: |
+          sudo apt update
+          sudo apt-get install -y curl bspatch jq git
+          git clone https://github.com/pocopico/tinycore-redpill tinycore-redpill
+          cd tinycore-redpill
+          sudo ./rploader.sh download ${{ env.architecture }}-${{ github.event.inputs.version }}
+          ls
+
+      - name: Add Ext
+        run: |
+          cd tinycore-redpill
+          cd redpill-load
+          sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-acpid/rpext-index.json'
+          sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-virtio/rpext-index.json'
+          # sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-misc/rpext-index.json'
+          # sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-dtb/rpext-index.json'
+          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/redpill-boot-wait/rpext-index.json'
+          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/e1000e/rpext-index.json'
+          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json'
+          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/tg3/rpext-index.json'
+          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/r8125/rpext-index.json'
+
+      - name: Build
+        run: |
+          cd tinycore-redpill
+          # yes y | sudo ./rploader.sh satamap now
+          # yes y | sudo ./rploader.sh identifyusb now
+          yes y | sudo ./rploader.sh serialgen ${{ github.event.inputs.platform }} now
+          yes y | sudo ./rploader.sh build ${{ env.architecture }}-${{ github.event.inputs.version }}
+          if [-f "redpill-load/loader.img" ]; then
+            filename=redpill-${{ github.event.inputs.platform }}-${{ github.event.inputs.version }}-$(date +%Y%m%d%H%M%S).img
+            mv redpill-load/loader.img ${filename}
+            echo "status=true" >> $GITHUB_ENV
+            echo "filename=${filename}" >> $GITHUB_ENV
+          else
+            echo "status=false" >> $GITHUB_ENV
+          fi
+          echo ${{ env.status }}
+          echo ${{ env.filename }}
+
+      - name: Upload Releases
+        if: env.status == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.releasetag }}
+          files: ${{ env.filename }}
+          
