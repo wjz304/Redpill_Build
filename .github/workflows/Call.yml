@@ -1,4 +1,4 @@
-name: Redpill Build Call
+name: Call
 
 on:
   workflow_call:
