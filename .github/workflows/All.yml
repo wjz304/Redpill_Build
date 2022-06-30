@@ -52,7 +52,7 @@ jobs:
     secrets:
       token: ${{ secrets.TOKEN }}
 
-  DS918+:
+  DS918p:
     if: ${{ github.event.inputs.platform }} == 'DS918+' || ${{ github.event.inputs.platform }} == 'all'
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
@@ -62,7 +62,7 @@ jobs:
     secrets:
       token: ${{ secrets.TOKEN }}
 
-  DS920+:
+  DS920p:
     if: ${{ github.event.inputs.platform }} == 'DS920+' || ${{ github.event.inputs.platform }} == 'all'
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
@@ -72,7 +72,7 @@ jobs:
     secrets:
       token: ${{ secrets.TOKEN }}
 
-  DS3622xs+:
+  DS3622xsp:
     if: ${{ github.event.inputs.platform }} == 'DS3622xs+' || ${{ github.event.inputs.platform }} == 'all'
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
