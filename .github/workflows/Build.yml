@@ -1,101 +1,90 @@
-name: Redpill Build Call
+name: Redpill Build
 
 on:
-  workflow_call:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
     inputs:
       platform:
+        description: 'all DS3615xs DS3617xs DS918+ DS920+ DS3622xs+'
         required: true
-        type: string
+        default: 'all' 
+        type: choice
+        options:
+        - all
+        - DS3615xs
+        - DS3617xs
+        - DS918+
+        - DS920+
+        - DS3622xs+
 
       version:
+        description: '7.1.0-42661 7.0.1-42218-JUN 7.0.1-42218'
         required: true
-        type: string
+        default: '7.1.0-42661' 
+        type: choice
+        options:
+        - 7.1.0-42661
+        - 7.0.1-42218-JUN
+        - 7.0.1-42218
 
-      releasetag:
-        required: true
-        type: string
 
 
 jobs:
-  Redpill-build:
+  Initialization:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@main
-
-      - name: checkinput
+      - name: Initialization
+        id: init
         run: |
-          function ArchitectureArray() {
+          echo "releasetag::$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
 
-              case $1 in
-              DS3615xs)
-                  architecture="bromolow"
-                  ;;
-              DS3617xs)
-                  architecture="broadwell"
-                  ;;
-              DS918+)
-                  architecture="apollolake"
-                  ;;
-              DS920+)
-                  architecture="geminilake"
-                  ;;
-              DS3622xs+)
-                  architecture="broadwellnk"
-                  ;;
-              esac
-          }
-          ArchitectureArray ${{ github.event.inputs.platform }}
-          echo "architecture=${architecture}" >> $GITHUB_ENV
-          echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
-          echo ${{ env.architecture }}
-          echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+  DS3615xs:
+    if: ${{ github.event.inputs.platform == 'DS3615xs' }}  || ${{ github.event.inputs.platform == 'all' }}
+    uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
+    with:
+      releasetag: ${{ env.releasetag }}
+      platform: 'DS3615xs'
+      version: ${{ github.event.inputs.version }}
+    secrets:
+      token: ${{ secrets.TOKEN }}
 
-      - name: Init Env
-        run: |
-          sudo apt update
-          sudo apt-get install -y curl bspatch jq git
-          git clone https://github.com/pocopico/tinycore-redpill tinycore-redpill
-          cd tinycore-redpill
-          sudo ./rploader.sh download ${{ env.architecture }}-${{ github.event.inputs.version }}
-          ls
+  DS3617xs:
+    if: ${{ github.event.inputs.platform == 'DS3617xs' }}  || ${{ github.event.inputs.platform == 'all' }}
+    uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
+    with:
+      releasetag: ${{ env.RELEASETAG }}
+      platform: 'DS3617xs'
+      version: ${{ github.event.inputs.version }}
+    secrets:
+      token: ${{ secrets.TOKEN }}
 
-      - name: Add Ext
-        run: |
-          cd tinycore-redpill
-          cd redpill-load
-          sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-acpid/rpext-index.json'
-          sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-virtio/rpext-index.json'
-          # sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-misc/rpext-index.json'
-          # sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-dtb/rpext-index.json'
-          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/redpill-boot-wait/rpext-index.json'
-          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/e1000e/rpext-index.json'
-          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json'
-          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/tg3/rpext-index.json'
-          sudo ./ext-manager.sh add 'https://raw.githubusercontent.com/pocopico/rp-ext/master/r8125/rpext-index.json'
+  DS918p:
+    if: ${{ github.event.inputs.platform == 'DS918+' }}  || ${{ github.event.inputs.platform == 'all' }}
+    uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
+    with:
+      releasetag: ${{ env.RELEASETAG }}
+      platform: 'DS918+'
+      version: ${{ github.event.inputs.version }}
+    secrets:
+      token: ${{ secrets.TOKEN }}
 
-      - name: Build
-        run: |
-          cd tinycore-redpill
-          # yes y | sudo ./rploader.sh satamap now
-          # yes y | sudo ./rploader.sh identifyusb now
-          yes y | sudo ./rploader.sh serialgen ${{ github.event.inputs.platform }} now
-          yes y | sudo ./rploader.sh build ${{ env.architecture }}-${{ github.event.inputs.version }}
-          if [-f "redpill-load/loader.img" ]; then
-            filename=redpill-${{ github.event.inputs.platform }}-${{ github.event.inputs.version }}-$(date +%Y%m%d%H%M%S).img
-            mv redpill-load/loader.img ${filename}
-            echo "status=true" >> $GITHUB_ENV
-            echo "filename=${filename}" >> $GITHUB_ENV
-          else
-            echo "status=false" >> $GITHUB_ENV
-          fi
-          echo ${{ env.status }}
-          echo ${{ env.filename }}
+  DS920p:
+    if: ${{ github.event.inputs.platform  == 'DS920+' }}  || ${{ github.event.inputs.platform == 'all' }}
+    uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
+    with:
+      releasetag: ${{ env.RELEASETAG }}
+      platform: 'DS920+'
+      version: ${{ github.event.inputs.version }}
+    secrets:
+      token: ${{ secrets.TOKEN }}
 
-      - name: Upload Releases
-        if: env.status == 'true'
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.event.inputs.releasetag }}
-          files: ${{ env.filename }}
-          
+  DS3622xsp:
+    if: ${{ github.event.inputs.platform == 'DS3622xs+' }}  || ${{ github.event.inputs.platform == 'all' }}
+    uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
+    with:
+      releasetag: ${{ env.RELEASETAG }}
+      platform: 'DS3622xs+'
+      version: ${{ github.event.inputs.version }}
+    secrets:
+      token: ${{ secrets.TOKEN }}
