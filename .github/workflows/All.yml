@@ -33,50 +33,45 @@ env:
 
 jobs:
   DS3615xs:
-    if: ${{ github.event.inputs.platform }} == 'DS3615xs' || ${{ github.event.inputs.platform }} == 'all'
+    if: ${{ github.event.inputs.platform == 'DS3615xs' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${ releasetag }
       platform: 'DS3615xs'
       version: ${{ github.event.inputs.version }}
     secrets:
       token: ${{ secrets.TOKEN }}
 
   DS3617xs:
-    if: ${{ github.event.inputs.platform }} == 'DS3617xs' || ${{ github.event.inputs.platform }} == 'all'
+    if: ${{ github.event.inputs.platform == 'DS3617xs' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${ releasetag }
       platform: 'DS3617xs'
       version: ${{ github.event.inputs.version }}
     secrets:
       token: ${{ secrets.TOKEN }}
 
   DS918p:
-    if: ${{ github.event.inputs.platform }} == 'DS918+' || ${{ github.event.inputs.platform }} == 'all'
+    if: ${{ github.event.inputs.platform == 'DS918+' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${ releasetag }
       platform: 'DS918+'
       version: ${{ github.event.inputs.version }}
     secrets:
       token: ${{ secrets.TOKEN }}
 
   DS920p:
-    if: ${{ github.event.inputs.platform }} == 'DS920+' || ${{ github.event.inputs.platform }} == 'all'
+    if: ${{ github.event.inputs.platform  == 'DS920+' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${ releasetag }
       platform: 'DS920+'
       version: ${{ github.event.inputs.version }}
     secrets:
       token: ${{ secrets.TOKEN }}
 
   DS3622xsp:
-    if: ${{ github.event.inputs.platform }} == 'DS3622xs+' || ${{ github.event.inputs.platform }} == 'all'
+    if: ${{ github.event.inputs.platform == 'DS3622xs+' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${ releasetag }
       platform: 'DS3622xs+'
       version: ${{ github.event.inputs.version }}
     secrets:
