@@ -35,9 +35,11 @@ jobs:
     name: Initialization
     runs-on: ubuntu-latest
     steps:
-      - run: |
-      sudo timedatectl set-timezone "Asia/Shanghai"
-      echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
+      - name: Init releasetag
+        id: setoutput
+        run: |
+          sudo timedatectl set-timezone "Asia/Shanghai"
+          echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
 
   ds3615xs:
     name: Build DS3615xs
