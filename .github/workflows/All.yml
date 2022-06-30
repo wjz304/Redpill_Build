@@ -29,14 +29,14 @@ on:
         - 7.0.1-42218
 
 env:
-  releasetag: $(date +"%Y.%m.%d-%H%M")
+  RELEASETAG: $(date +"%Y.%m.%d-%H%M")
 
 jobs:
   DS3615xs:
     if: ${{ github.event.inputs.platform == 'DS3615xs' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${{ env.releasetag }}
+      releasetag: ${{ env.RELEASETAG }}
       platform: 'DS3615xs'
       version: ${{ github.event.inputs.version }}
     secrets:
@@ -46,7 +46,7 @@ jobs:
     if: ${{ github.event.inputs.platform == 'DS3617xs' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${{ env.releasetag }}
+      releasetag: ${{ env.RELEASETAG }}
       platform: 'DS3617xs'
       version: ${{ github.event.inputs.version }}
     secrets:
@@ -56,7 +56,7 @@ jobs:
     if: ${{ github.event.inputs.platform == 'DS918+' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${{ env.releasetag }}
+      releasetag: ${{ env.RELEASETAG }}
       platform: 'DS918+'
       version: ${{ github.event.inputs.version }}
     secrets:
@@ -66,7 +66,7 @@ jobs:
     if: ${{ github.event.inputs.platform  == 'DS920+' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${{ env.releasetag }}
+      releasetag: ${{ env.RELEASETAG }}
       platform: 'DS920+'
       version: ${{ github.event.inputs.version }}
     secrets:
@@ -76,7 +76,7 @@ jobs:
     if: ${{ github.event.inputs.platform == 'DS3622xs+' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: wjz304/Redpill_Build/.github/workflows/Build.yml@main
     with:
-      releasetag: ${{ env.releasetag }}
+      releasetag: ${{ env.RELEASETAG }}
       platform: 'DS3622xs+'
       version: ${{ github.event.inputs.version }}
     secrets:
