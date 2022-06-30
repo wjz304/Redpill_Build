@@ -31,66 +31,67 @@ on:
 
 
 jobs:
-  Init:
+  initjob:
     name: Initialization
     runs-on: ubuntu-latest
-    - run: echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
+    steps:
+      - run: echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
 
-  DS3615xs:
+  ds3615xs:
     name: Build DS3615xs
-    needs: Init
+    needs: initjob
     if: ${{ github.event.inputs.platform == 'DS3615xs' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
-      releasetag: ${{ needs.Init.output.releasetag }}
+      releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS3615xs'
       version: ${{ github.event.inputs.version }}
     secrets:
       token: ${{ secrets.TOKEN }}
 
-  DS3617xs:
+  ds3617xs:
     name: Build DS3617xs
-    needs: Init
+    needs: initjob
     if: ${{ github.event.inputs.platform == 'DS3617xs' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
-      releasetag: ${{ needs.Init.output.releasetag }}
+      releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS3617xs'
       version: ${{ github.event.inputs.version }}
     secrets:
       token: ${{ secrets.TOKEN }}
 
-  DS918p:
+  ds918p:
     name: Build DS918p
-    needs: Init
+    needs: initjob
     if: ${{ github.event.inputs.platform == 'DS918+' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
-      releasetag: ${{ needs.Init.output.releasetag }}
+      releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS918+'
       version: ${{ github.event.inputs.version }}
     secrets:
       token: ${{ secrets.TOKEN }}
 
-  DS920p:
+  ds920p:
     name: Build DS920p
-    needs: Init
+    needs: initjob
     if: ${{ github.event.inputs.platform  == 'DS920+' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
-      releasetag: ${{ needs.Init.output.releasetag }}
+      releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS920+'
       version: ${{ github.event.inputs.version }}
     secrets:
       token: ${{ secrets.TOKEN }}
 
-  DS3622xsp:
+  ds3622xsp:
     name: Build DS3622xsp
-    needs: Init
+    needs: initjob
     if: ${{ github.event.inputs.platform == 'DS3622xs+' }}  || ${{ github.event.inputs.platform == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
-      releasetag: ${{ needs.Init.output.releasetag }}
+      releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS3622xs+'
       version: ${{ github.event.inputs.version }}
     secrets:
