@@ -1,7 +1,19 @@
-name: Redpill Build
+name: Redpill Build Call
 
 on:
   workflow_call:
+    inputs:
+      platform:
+        required: true
+        type: string
+
+      version:
+        required: true
+        type: string
+
+      releasetag:
+        required: true
+        type: string
 
 
 jobs:
