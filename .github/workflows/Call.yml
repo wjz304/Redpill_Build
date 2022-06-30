@@ -47,15 +47,17 @@ jobs:
           }
           ArchitectureArray ${{ github.event.inputs.platform }}
           echo "architecture=${architecture}" >> $GITHUB_ENV
-          echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
           echo ${{ env.architecture }}
-          echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
 
       - name: Init Env
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          
           sudo apt update
           sudo apt-get install -y curl bspatch jq git
-          git clone https://github.com/pocopico/tinycore-redpill tinycore-redpill
+          git clone https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
           cd tinycore-redpill
           sudo ./rploader.sh download ${{ env.architecture }}-${{ github.event.inputs.version }}
           ls
