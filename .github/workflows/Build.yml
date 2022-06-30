@@ -41,7 +41,7 @@ jobs:
 
   DS3615xs:
     if: ${{ github.event.inputs.platform == 'DS3615xs' }}  || ${{ github.event.inputs.platform == 'all' }}
-    uses: .github/workflows/Build.yml@main
+    uses: ./.github/workflows/Build.yml@main
     with:
       releasetag: ${{ env.releasetag }}
       platform: 'DS3615xs'
@@ -51,7 +51,7 @@ jobs:
 
   DS3617xs:
     if: ${{ github.event.inputs.platform == 'DS3617xs' }}  || ${{ github.event.inputs.platform == 'all' }}
-    uses: .github/workflows/Build.yml@main
+    uses: ./.github/workflows/Build.yml@main
     with:
       releasetag: ${{ env.releasetag }}
       platform: 'DS3617xs'
@@ -61,7 +61,7 @@ jobs:
 
   DS918p:
     if: ${{ github.event.inputs.platform == 'DS918+' }}  || ${{ github.event.inputs.platform == 'all' }}
-    uses: .github/workflows/Build.yml@main
+    uses: ./.github/workflows/Build.yml@main
     with:
       releasetag: ${{ env.releasetag }}
       platform: 'DS918+'
@@ -71,7 +71,7 @@ jobs:
 
   DS920p:
     if: ${{ github.event.inputs.platform  == 'DS920+' }}  || ${{ github.event.inputs.platform == 'all' }}
-    uses: .github/workflows/Build.yml@main
+    uses: ./.github/workflows/Build.yml@main
     with:
       releasetag: ${{ env.releasetag }}
       platform: 'DS920+'
@@ -81,7 +81,7 @@ jobs:
 
   DS3622xsp:
     if: ${{ github.event.inputs.platform == 'DS3622xs+' }}  || ${{ github.event.inputs.platform == 'all' }}
-    uses: .github/workflows/Build.yml@main
+    uses: ./.github/workflows/Build.yml@main
     with:
       releasetag: ${{ env.releasetag }}
       platform: 'DS3622xs+'
