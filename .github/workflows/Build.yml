@@ -46,8 +46,6 @@ jobs:
       releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS3615xs'
       version: ${{ github.event.inputs.version }}
-    secrets:
-      token: ${{ secrets.TOKEN }}
 
   ds3617xs:
     name: Build DS3617xs
@@ -58,8 +56,6 @@ jobs:
       releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS3617xs'
       version: ${{ github.event.inputs.version }}
-    secrets:
-      token: ${{ secrets.TOKEN }}
 
   ds918p:
     name: Build DS918p
@@ -70,8 +66,6 @@ jobs:
       releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS918+'
       version: ${{ github.event.inputs.version }}
-    secrets:
-      token: ${{ secrets.TOKEN }}
 
   ds920p:
     name: Build DS920p
@@ -82,8 +76,6 @@ jobs:
       releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS920+'
       version: ${{ github.event.inputs.version }}
-    secrets:
-      token: ${{ secrets.TOKEN }}
 
   ds3622xsp:
     name: Build DS3622xsp
@@ -94,5 +86,3 @@ jobs:
       releasetag: ${{ needs.initjob.output.releasetag }}
       platform: 'DS3622xs+'
       version: ${{ github.event.inputs.version }}
-    secrets:
-      token: ${{ secrets.TOKEN }}
