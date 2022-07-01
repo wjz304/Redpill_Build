@@ -113,7 +113,7 @@ jobs:
           sudo sed -i 's/\/mnt/.\/mnt/g' ./rploader.sh
           sudo sed -i 's/\/home\/tc/./g' ./rploader.sh
           sudo sed -i 's/filetool.sh/.\/filetool.sh/g' ./rploader.sh
-
+          sudo sed -i 's/jq -s . user_config.json >\/dev\/null/cat user_config.json/g' ./rploader.sh
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
           ls
 
