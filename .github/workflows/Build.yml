@@ -43,29 +43,33 @@ jobs:
           sudo timedatectl set-timezone "Asia/Shanghai"
           echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
 
-          echo releasetag: ${{ needs.initjob.outputs.releasetag }}
+          echo releasetag: ${{ outputs.releasetag }}
           echo platforms: ${{ inputs.platforms }}
           echo version: ${{ inputs.version }}
 
   ds3615xs:
     name: Build DS3615xs
     needs: initjob
-    if: ${{ github.event.inputs.platforms == 'DS3615xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
-    uses: ./.github/workflows/Call.yml
-    with:
-      releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: DS3615xs
-      version: ${{ inputs.version }}
+    steps:
+      - name: Build DS3615xs Call
+        if: ${{ github.event.inputs.platforms == 'DS3615xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
+        uses: ./.github/workflows/Call.yml
+        with:
+          releasetag: ${{ needs.initjob.outputs.releasetag }}
+          platform: DS3615xs
+          version: ${{ inputs.version }}
 
   ds3617xs:
     name: Build DS3617xs
     needs: initjob
-    if: ${{ github.event.inputs.platforms == 'DS3617xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
-    uses: ./.github/workflows/Call.yml
-    with:
-      releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: DS3617xs
-      version: ${{ inputs.version }}
+    steps:
+      - name: Build DS3615xs Call
+        if: ${{ github.event.inputs.platforms == 'DS3617xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
+        uses: ./.github/workflows/Call.yml
+        env: 
+          releasetag: ${{ needs.initjob.outputs.releasetag }}
+          platform: DS3617xs
+
 
   ds918p:
     name: Build DS918p
