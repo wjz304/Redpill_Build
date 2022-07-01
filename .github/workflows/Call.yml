@@ -64,6 +64,7 @@ jobs:
           git clone https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
           ls
           cd tinycore-redpill
+          ls
           sudo ./rploader.sh download ${{ env.architecture }}-${{ github.event.inputs.version }}
           ls
 
