@@ -49,13 +49,18 @@ jobs:
                   ;;
               esac
           }
+
           ArchitectureArray ${{ inputs.platform }}
           echo "architecture=${architecture}" >> $GITHUB_ENV
-          echo ${{ env.architecture }}
+
+          echo architecture: ${{ env.architecture }}
 
 
       - name: Init Env
         run: |
+          echo architecture: ${{ env.architecture }}
+          echo version: ${{ inputs.version }}
+
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           
@@ -64,13 +69,14 @@ jobs:
           git clone https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
           cd tinycore-redpill
           sudo chmod +x ./rploader.sh
-          sudo ./rploader.sh download ${{ env.architecture }}-${{ github.event.inputs.version }}
+          sudo ./rploader.sh download ${{ env.architecture }}-${{ inputs.version }}
           ls
 
       - name: Add Ext
         run: |
           cd tinycore-redpill
           cd redpill-load
+          sudo chmod +x ./ext-manager.sh
           sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-acpid/rpext-index.json'
           sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-virtio/rpext-index.json'
           # sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-misc/rpext-index.json'
@@ -83,19 +89,24 @@ jobs:
 
       - name: Build
         run: |
+          echo architecture: ${{ env.architecture }}
+          echo version: ${{ inputs.version }}
+          echo releasetag: ${{ inputs.releasetag }}
+
           cd tinycore-redpill
           # yes y | sudo ./rploader.sh satamap now
           # yes y | sudo ./rploader.sh identifyusb now
-          yes y | sudo ./rploader.sh serialgen ${{ github.event.inputs.platform }} now
-          yes y | sudo ./rploader.sh build ${{ env.architecture }}-${{ github.event.inputs.version }}
+          yes y | sudo ./rploader.sh serialgen ${{ inputs.platform }} now
+          yes y | sudo ./rploader.sh build ${{ env.architecture }}-${{ inputs.version }}
           if [-f "redpill-load/loader.img" ]; then
-            filename=redpill-${{ github.event.inputs.platform }}-${{ github.event.inputs.version }}-$(date +%Y%m%d%H%M%S).img
+            filename=redpill-${{ inputs.platform }}-${{ inputs.version }}-$(date +%Y%m%d%H%M%S).img
             mv redpill-load/loader.img ${filename}
             echo "status=true" >> $GITHUB_ENV
             echo "filename=${filename}" >> $GITHUB_ENV
           else
             echo "status=false" >> $GITHUB_ENV
           fi
+
           echo ${{ env.status }}
           echo ${{ env.filename }}
 
@@ -103,6 +114,6 @@ jobs:
         if: env.status == 'true'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.event.inputs.releasetag }}
+          tag_name: ${{ inputs.releasetag }}
           files: ${{ env.filename }}
           
