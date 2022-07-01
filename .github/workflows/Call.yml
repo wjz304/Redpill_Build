@@ -24,6 +24,10 @@ jobs:
         uses: actions/checkout@main
 
       - name: checkinput
+        id: initinput
+        outputs:
+          toolkitv: ${{ env.architecture }}-${{ inputs.version }}
+          filename: redpill-${{ inputs.platform }}-${{ inputs.version }}-${{ env.datetime }}.img
         run: |
           echo ${{ inputs.platform }}
           echo ${{ inputs.version }}
@@ -52,14 +56,14 @@ jobs:
 
           ArchitectureArray ${{ inputs.platform }}
           echo "architecture=${architecture}" >> $GITHUB_ENV
+          echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
           echo architecture: ${{ env.architecture }}
-
+          echo datetime: ${{ env.datetime }}
 
       - name: Init Env
         run: |
-          echo architecture: ${{ env.architecture }}
-          echo version: ${{ inputs.version }}
+          echo toolkitv: ${{ steps.initinput.outputs.toolkitv }}
 
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
@@ -69,7 +73,7 @@ jobs:
           git clone https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
           cd tinycore-redpill
           sudo chmod +x ./rploader.sh
-          sudo ./rploader.sh download ${{ env.architecture-inputs.version }}
+          sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
           ls
 
       - name: Add Ext
@@ -89,32 +93,28 @@ jobs:
 
       - name: Build
         run: |
-          echo architecture: ${{ env.architecture }}
-          echo version: ${{ inputs.version }}
-          echo releasetag: ${{ inputs.releasetag }}
+          echo toolkitv: ${{ steps.initinput.outputs.toolkitv }}
+          echo filename: ${{ steps.initinput.outputs.filename }}
 
           cd tinycore-redpill
           sudo chmod +x ./rploader.sh
           # yes y | sudo ./rploader.sh satamap now
           # yes y | sudo ./rploader.sh identifyusb now
           yes y | sudo ./rploader.sh serialgen ${{ inputs.platform }} now
-          yes y | sudo ./rploader.sh build ${{ env.architecture-inputs.version }}
+          yes y | sudo ./rploader.sh build ${{ steps.initinput.outputs.toolkitv }}
           if [-f "redpill-load/loader.img" ]; then
-            filename=redpill-${{ inputs.platform-inputs.version }}-$(date +%Y%m%d%H%M%S).img
-            mv redpill-load/loader.img ${filename}
+            mv redpill-load/loader.img ${{ steps.initinput.outputs.filename }}
             echo "status=true" >> $GITHUB_ENV
-            echo "filename=${filename}" >> $GITHUB_ENV
           else
             echo "status=false" >> $GITHUB_ENV
           fi
 
           echo ${{ env.status }}
-          echo ${{ env.filename }}
 
       - name: Upload Releases
         if: env.status == 'true'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ inputs.releasetag }}
-          files: ${{ env.filename }}
+          files: ${{ steps.initinput.outputs.filename }}
           
