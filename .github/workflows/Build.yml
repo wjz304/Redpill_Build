@@ -34,8 +34,6 @@ jobs:
   initjob:
     name: Initialization
     runs-on: ubuntu-latest
-    outputs:
-      releasetag: ${{ steps.initenv.outputs.releasetag }}
     steps:
       - name: Init releasetag
         id: initenv
