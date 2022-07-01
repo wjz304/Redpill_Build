@@ -101,22 +101,18 @@ jobs:
           sudo apt update
           sudo apt-get install -y curl libcurl4 libcurl4-openssl-dev bspatch jq
 
-          sudo touch /usr/local/sbin/filetool.sh
-          sudo chmod +x /usr/local/sbin/filetool.sh
-
-          sudo mkdir /home/tc 
-          sudo mkdir /home/tc/mnt 
-          
-
           git clone --depth 1 https://github.com/pocopico/tinycore-redpill.git /home/tc 
           cd /home/tc
           sudo chmod +x ./rploader.sh
-          sudo ./rploader.sh update now
-          sudo ./rploader.sh fullupgrade now
+          yes y | sudo ./rploader.sh update now
+          yes y | sudo ./rploader.sh fullupgrade now
 
-          sudo sed -i 's/\/mnt/\/home\/tc\/mnt/g' ./rploader.sh
-          #sudo sed -i 's/\/home\/tc/./g' ./rploader.sh
-          #sudo sed -i 's/filetool.sh/echo/g' ./rploader.sh
+          sudo mkdir mnt 
+          sudo sed -i 's/\/mnt/.\/mnt/g' ./rploader.sh
+          sudo sed -i 's/\/home\/tc/./g' ./rploader.sh
+
+          sudo touch ./filetool.sh  #/usr/local/sbin/filetool.sh
+          sudo chmod +x ./filetool.sh #/usr/local/sbin/filetool.sh
 
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
           ls
