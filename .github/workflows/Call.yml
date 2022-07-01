@@ -3,15 +3,15 @@ name: Call
 on:
   workflow_call:
     inputs:
+      releasetag:
+        required: true
+        type: string
+
       platform:
         required: true
         type: string
 
       version:
-        required: true
-        type: string
-
-      releasetag:
         required: true
         type: string
 
@@ -25,9 +25,9 @@ jobs:
 
       - name: checkinput
         run: |
-          echo ${{ github.event.inputs.platform }}
-          echo ${{ github.event.inputs.version }}
-          echo ${{ github.event.inputs.releasetag }}
+          echo ${{ inputs.platform }}
+          echo ${{ inputs.version }}
+          echo ${{ inputs.releasetag }}
 
           function ArchitectureArray() {
 
@@ -49,7 +49,7 @@ jobs:
                   ;;
               esac
           }
-          ArchitectureArray ${{ github.event.inputs.platform }}
+          ArchitectureArray ${{ inputs.platform }}
           echo "architecture=${architecture}" >> $GITHUB_ENV
           echo ${{ env.architecture }}
 
