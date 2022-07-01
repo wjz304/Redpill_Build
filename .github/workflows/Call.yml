@@ -1,6 +1,38 @@
 name: Call
 
 on:
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'all DS3615xs DS3617xs DS918+ DS920+ DS3622xs+'
+        required: true
+        default: 'all' 
+        type: choice
+        options:
+        - all
+        - DS3615xs
+        - DS3617xs
+        - DS918+
+        - DS920+
+        - DS3622xs+
+
+      version:
+        description: '7.1.0-42661 7.0.1-42218-JUN 7.0.1-42218'
+        required: true
+        default: '7.1.0-42661' 
+        type: choice
+        options:
+        - 7.1.0-42661
+        - 7.0.1-42218-JUN
+        - 7.0.1-42218
+
+      releasetag:
+        description: 'test'
+        required: true
+        default: 'test' 
+        type: string
+
+
   workflow_call:
     inputs:
       releasetag:
