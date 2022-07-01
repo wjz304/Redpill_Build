@@ -34,6 +34,8 @@ jobs:
   initjob:
     name: Initialization
     runs-on: ubuntu-latest
+    outputs:
+      build_id: ${{ steps.initenv.outputs.releasetag }}
     steps:
       - name: Init releasetag
         id: initenv
@@ -47,9 +49,9 @@ jobs:
     if: ${{ github.event.inputs.platforms == 'DS3615xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
-      releasetag: ${{ needs.initjob.initenv.output.releasetag }}
+      releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3615xs
-      version: ${{ github.event.inputs.version }}
+      version: ${{ inputs.version }}
 
   ds3617xs:
     name: Build DS3617xs
@@ -57,9 +59,9 @@ jobs:
     if: ${{ github.event.inputs.platforms == 'DS3617xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
-      releasetag: ${{ needs.initjob.initenv.outputs.releasetag }}
+      releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3617xs
-      version: ${{ github.event.inputs.version }}
+      version: ${{ inputs.version }}
 
   ds918p:
     name: Build DS918p
@@ -67,9 +69,9 @@ jobs:
     if: ${{ github.event.inputs.platforms == 'DS918+' }}  || ${{ github.event.inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
-      releasetag: ${{ needs.initjob.initenv.outputs.releasetag }}
+      releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS918+
-      version: ${{ github.event.inputs.version }}
+      version: ${{ inputs.version }}
 
   ds920p:
     name: Build DS920p
@@ -79,7 +81,7 @@ jobs:
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS920+
-      version: ${{ github.event.inputs.version }}
+      version: ${{ inputs.version }}
 
   ds3622xsp:
     name: Build DS3622xsp
@@ -89,4 +91,4 @@ jobs:
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3622xs+
-      version: ${{ github.event.inputs.version }}
+      version: ${{ inputs.version }}

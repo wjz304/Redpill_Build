@@ -62,9 +62,8 @@ jobs:
           sudo apt update
           sudo apt-get install -y curl bspatch jq
           git clone https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
-          ls
           cd tinycore-redpill
-          ls
+          sudo chmod +x ./rploader.sh
           sudo ./rploader.sh download ${{ env.architecture }}-${{ github.event.inputs.version }}
           ls
 
