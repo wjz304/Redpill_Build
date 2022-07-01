@@ -53,11 +53,11 @@ jobs:
     if: ${{ github.event.inputs.platforms == 'DS3615xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
     env:
       platform: DS3615xs
-    uses: ./.github/workflows/Call.yml
-    with:
-      releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: ${{ env.platform }}
-      version: ${{ inputs.version }}
+    - uses: ./.github/workflows/Call.yml
+      with:
+        releasetag: ${{ needs.initjob.outputs.releasetag }}
+        platform: ${{ env.platform }}
+        version: ${{ inputs.version }}
 
   ds3617xs:
     name: Build DS3617xs
@@ -65,11 +65,11 @@ jobs:
     if: ${{ github.event.inputs.platforms == 'DS3617xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
     env:
       platform: DS3617xs
-    uses: ./.github/workflows/Call.yml
-    with:
-      releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: ${{ env.platform }}
-      version: ${{ inputs.version }}
+    - uses: ./.github/workflows/Call.yml
+      with:
+        releasetag: ${{ needs.initjob.outputs.releasetag }}
+        platform: ${{ env.platform }}
+        version: ${{ inputs.version }}
 
   ds918p:
     name: Build DS918p
@@ -77,11 +77,11 @@ jobs:
     if: ${{ github.event.inputs.platforms == 'DS918+' }}  || ${{ github.event.inputs.platforms == 'all' }}
     env:
       platform: DS918+
-    uses: ./.github/workflows/Call.yml
-    with:
-      releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: ${{ env.platform }}
-      version: ${{ inputs.version }}
+    - uses: ./.github/workflows/Call.yml
+      with:
+        releasetag: ${{ needs.initjob.outputs.releasetag }}
+        platform: ${{ env.platform }}
+        version: ${{ inputs.version }}
 
   ds920p:
     name: Build DS920p
@@ -89,11 +89,11 @@ jobs:
     if: ${{ github.event.inputs.platforms  == 'DS920+' }}  || ${{ github.event.inputs.platforms == 'all' }}
     env:
       platform: DS920+
-    uses: ./.github/workflows/Call.yml
-    with:
-      releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: ${{ env.platform }}
-      version: ${{ inputs.version }}
+    - uses: ./.github/workflows/Call.yml
+      with:
+        releasetag: ${{ needs.initjob.outputs.releasetag }}
+        platform: ${{ env.platform }}
+        version: ${{ inputs.version }}
 
   ds3622xsp:
     name: Build DS3622xsp
@@ -101,8 +101,8 @@ jobs:
     if: ${{ github.event.inputs.platforms == 'DS3622xs+' }}  || ${{ github.event.inputs.platforms == 'all' }}
     env:
       platform: DS3622xs+
-    uses: ./.github/workflows/Call.yml
-    with:
-      releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: ${{ env.platform }}
-      version: ${{ inputs.version }}
+    - uses: ./.github/workflows/Call.yml
+      with:
+        releasetag: ${{ needs.initjob.outputs.releasetag }}
+        platform: ${{ env.platform }}
+        version: ${{ inputs.version }}
