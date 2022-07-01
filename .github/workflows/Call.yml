@@ -25,6 +25,10 @@ jobs:
 
       - name: checkinput
         run: |
+          echo ${{ github.event.inputs.platform }}
+          echo ${{ github.event.inputs.version }}
+          echo ${{ github.event.inputs.releasetag }}
+
           function ArchitectureArray() {
 
               case $1 in
@@ -56,8 +60,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           
           sudo apt update
-          sudo apt-get install -y curl bspatch jq git
+          sudo apt-get install -y curl bspatch jq
           git clone https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
+          ls
           cd tinycore-redpill
           sudo ./rploader.sh download ${{ env.architecture }}-${{ github.event.inputs.version }}
           ls
