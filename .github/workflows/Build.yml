@@ -41,9 +41,9 @@ jobs:
           sudo timedatectl set-timezone "Asia/Shanghai"
           echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
 
-          echo releasetag: ${{ outputs.releasetag }}
-          echo platforms: ${{ inputs.platforms }}
-          echo version: ${{ inputs.version }}
+          echo ${{ outputs.releasetag }}
+          echo ${{ inputs.platforms }}
+          echo ${{ inputs.version }}
 
   ds3615xs:
     name: Build DS3615xs
