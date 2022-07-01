@@ -50,26 +50,22 @@ jobs:
   ds3615xs:
     name: Build DS3615xs
     needs: initjob
-    steps:
-      - name: Build DS3615xs Call
-        if: ${{ github.event.inputs.platforms == 'DS3615xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
-        uses: ./.github/workflows/Call.yml
-        with:
-          releasetag: ${{ needs.initjob.outputs.releasetag }}
-          platform: DS3615xs
-          version: ${{ inputs.version }}
+    if: ${{ github.event.inputs.platforms == 'DS3615xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    uses: ./.github/workflows/Call.yml
+    env:
+      releasetag: ${{ needs.initjob.outputs.releasetag }}
+      platform: DS3615xs
+      version: ${{ inputs.version }}
 
   ds3617xs:
     name: Build DS3617xs
     needs: initjob
-    steps:
-      - name: Build DS3615xs Call
-        if: ${{ github.event.inputs.platforms == 'DS3617xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
-        uses: ./.github/workflows/Call.yml
-        env: 
-          releasetag: ${{ needs.initjob.outputs.releasetag }}
-          platform: DS3617xs
-
+    if: ${{ github.event.inputs.platforms == 'DS3617xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    uses: ./.github/workflows/Call.yml
+    with:
+      releasetag: ${{ needs.initjob.outputs.releasetag }}
+      platform: DS3617xs
+      version: ${{ inputs.version }}
 
   ds918p:
     name: Build DS918p
