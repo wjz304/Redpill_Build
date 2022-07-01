@@ -114,7 +114,9 @@ jobs:
           sudo sed -i 's/\/mnt/${PWD}\/mnt/g' ./rploader.sh
           sudo sed -i 's/\/home\/tc/${PWD}/g' ./rploader.sh
           sudo sed -i 's/filetool.sh/${PWD}\/filetool.sh/g' ./rploader.sh
-          sudo sed -i 's/"Got/"Got ${PWD}\/filetool.sh/g' ./rploader.sh
+
+          sudo sed -i 's/"Got/"${PWD} Got/g' ./rploader.sh
+          sudo sed -i 's/"Using/"${PWD} Using/g' ./rploader.sh
 
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
           ls
