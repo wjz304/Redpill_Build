@@ -111,10 +111,10 @@ jobs:
           sudo touch ./filetool.sh  #/usr/local/sbin/filetool.sh
           sudo chmod +x ./filetool.sh #/usr/local/sbin/filetool.sh
 
-          sed '2483d' ./rploader.sh
           sudo sed -i 's/\/mnt/${PWD}\/mnt/g' ./rploader.sh
           sudo sed -i 's/\/home\/tc/${PWD}/g' ./rploader.sh
           sudo sed -i 's/filetool.sh/${PWD}\/filetool.sh/g' ./rploader.sh
+          sudo sed -i '2483d' ./rploader.sh
 
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
           ls
