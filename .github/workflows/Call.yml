@@ -101,8 +101,9 @@ jobs:
           sudo apt update
           sudo apt-get install -y curl libcurl4 libcurl4-openssl-dev bspatch jq
 
-          sudo git clone --depth 1 https://github.com/pocopico/tinycore-redpill.git /home/tc 
-          cd /home/tc
+          sudo git clone --depth 1 https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
+          cd tinycore-redpill
+          echo $PWD
           sudo chmod +x ./rploader.sh
           yes y | sudo ./rploader.sh update now
 
@@ -110,16 +111,16 @@ jobs:
           sudo touch ./filetool.sh  #/usr/local/sbin/filetool.sh
           sudo chmod +x ./filetool.sh #/usr/local/sbin/filetool.sh
 
-          sudo sed -i 's/\/mnt/.\/mnt/g' ./rploader.sh
-          sudo sed -i 's/\/home\/tc/./g' ./rploader.sh
-          sudo sed -i 's/filetool.sh/.\/filetool.sh/g' ./rploader.sh
-          sudo sed -i 's/jq -s . user_config.json >\/dev\/null/cat user_config.json/g' ./rploader.sh
+          sudo sed -i 's/\/mnt/${PWD}\/mnt/g' ./rploader.sh
+          sudo sed -i 's/\/home\/tc/${PWD}/g' ./rploader.sh
+          sudo sed -i 's/filetool.sh/${PWD}\/filetool.sh/g' ./rploader.sh
+
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
           ls
 
       - name: Add Ext
         run: |
-          cd /home/tc
+          cd tinycore-redpill
           cd redpill-load
           sudo chmod +x ./ext-manager.sh
           sudo ./ext-manager.sh add 'https://github.com/pocopico/redpill-load/raw/master/redpill-acpid/rpext-index.json'
@@ -137,7 +138,7 @@ jobs:
           echo toolkitv: ${{ steps.initinput.outputs.toolkitv }}
           echo filename: ${{ steps.initinput.outputs.filename }}
 
-          cd /home/tc
+          cd tinycore-redpill
           sudo chmod +x ./rploader.sh
           yes y | sudo ./rploader.sh satamap now
           yes y | sudo ./rploader.sh identifyusb now
