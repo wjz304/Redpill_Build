@@ -122,6 +122,7 @@ jobs:
 
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
           ls
+          cat ./rploader.sh
 
       - name: Add Ext
         run: |
