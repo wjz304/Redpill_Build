@@ -35,7 +35,7 @@ jobs:
     name: Initialization
     runs-on: ubuntu-latest
     outputs:
-      build_id: ${{ steps.initenv.outputs.releasetag }}
+      releasetag: ${{ steps.initenv.outputs.releasetag }}
     steps:
       - name: Init releasetag
         id: initenv
