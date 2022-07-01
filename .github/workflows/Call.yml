@@ -103,7 +103,7 @@ jobs:
 
           sudo git clone --depth 1 https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
           cd tinycore-redpill
-          echo $PWD
+          echo $PWD  #/home/runner/work/Redpill_Build/Redpill_Build/tinycore-redpill
           sudo chmod +x ./rploader.sh
           yes y | sudo ./rploader.sh update now
 
@@ -114,6 +114,7 @@ jobs:
           sudo sed -i "s|/home/tc|${PWD}|g" ./rploader.sh
           sudo sed -i "s|/mnt|${PWD}/mnt|g" ./rploader.sh
           sudo sed -i "s|filetool.sh|${PWD}/filetool.sh|g" ./rploader.sh
+          sudo sed -i "s|sudo losetup -fP ./loader.img|exit 0\n    sudo losetup -fP ./loader.img|g" ./rploader.sh
 
           sudo sed -i 's/"Got/"${PWD} Got/g' ./rploader.sh
           sudo sed -i 's/"Using/"${PWD} Using/g' ./rploader.sh
