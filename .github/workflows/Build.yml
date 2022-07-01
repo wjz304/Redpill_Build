@@ -43,52 +43,66 @@ jobs:
           sudo timedatectl set-timezone "Asia/Shanghai"
           echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
 
+          echo releasetag: ${{ needs.initjob.outputs.releasetag }}
+          echo platforms: ${{ inputs.platforms }}
+          echo version: ${{ inputs.version }}
+
   ds3615xs:
     name: Build DS3615xs
     needs: initjob
     if: ${{ github.event.inputs.platforms == 'DS3615xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    env:
+      platform: DS3615xs
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: DS3615xs
+      platform: ${{ env.platform }}
       version: ${{ inputs.version }}
 
   ds3617xs:
     name: Build DS3617xs
     needs: initjob
     if: ${{ github.event.inputs.platforms == 'DS3617xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    env:
+      platform: DS3617xs
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: DS3617xs
+      platform: ${{ env.platform }}
       version: ${{ inputs.version }}
 
   ds918p:
     name: Build DS918p
     needs: initjob
     if: ${{ github.event.inputs.platforms == 'DS918+' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    env:
+      platform: DS918+
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: DS918+
+      platform: ${{ env.platform }}
       version: ${{ inputs.version }}
 
   ds920p:
     name: Build DS920p
     needs: initjob
     if: ${{ github.event.inputs.platforms  == 'DS920+' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    env:
+      platform: DS920+
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: DS920+
+      platform: ${{ env.platform }}
       version: ${{ inputs.version }}
 
   ds3622xsp:
     name: Build DS3622xsp
     needs: initjob
     if: ${{ github.event.inputs.platforms == 'DS3622xs+' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    env:
+      platform: DS3622xs+
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
-      platform: DS3622xs+
+      platform: ${{ env.platform }}
       version: ${{ inputs.version }}
