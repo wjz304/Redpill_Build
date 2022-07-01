@@ -99,7 +99,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           
           sudo apt update
-          sudo apt-get install -y curl bspatch jq
+          sudo apt-get install -y curl libcurl4 bspatch jq
 
           sudo touch /usr/local/sbin/filetool.sh
           sudo chmod +x /usr/local/sbin/filetool.sh
@@ -135,8 +135,8 @@ jobs:
 
           cd /home/tc
           sudo chmod +x ./rploader.sh
-          # yes y | sudo ./rploader.sh satamap now
-          # yes y | sudo ./rploader.sh identifyusb now
+          yes y | sudo ./rploader.sh satamap now
+          yes y | sudo ./rploader.sh identifyusb now
           yes y | sudo ./rploader.sh serialgen ${{ inputs.platform }} now
           sudo ./rploader.sh build ${{ steps.initinput.outputs.toolkitv }}
           if [-f "redpill-load/loader.img" ]; then
