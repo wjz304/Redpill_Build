@@ -103,6 +103,7 @@ jobs:
           git clone https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
           cd tinycore-redpill
           sudo chmod +x ./rploader.sh
+          sudo sed -i 's/\/home\/tc/./g' ./rploader.sh
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
           ls
 
