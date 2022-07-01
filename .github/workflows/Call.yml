@@ -3,10 +3,10 @@ name: Call
 on:
   workflow_dispatch:
     inputs:
-      platforms:
-        description: 'all DS3615xs DS3617xs DS918+ DS920+ DS3622xs+'
+      platform:
+        description: 'DS3615xs DS3617xs DS918+ DS920+ DS3622xs+'
         required: true
-        default: 'all' 
+        default: 'DS3622xs+' 
         type: choice
         options:
         - all
@@ -88,7 +88,7 @@ jobs:
           echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
           echo "::set-output name=toolkitv::${{ env.architecture }}-${{ inputs.version }}"
-          echo "::set-output filename::redpill-${{ inputs.platform }}-${{ inputs.version }}-${{ env.datetime }}.img"
+          echo "::set-output name=filename::redpill-${{ inputs.platform }}-${{ inputs.version }}-${{ env.datetime }}.img"
 
 
       - name: Init Env
