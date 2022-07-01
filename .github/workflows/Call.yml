@@ -69,7 +69,7 @@ jobs:
           git clone https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
           cd tinycore-redpill
           sudo chmod +x ./rploader.sh
-          sudo ./rploader.sh download ${{ env.architecture }}-${{ inputs.version }}
+          sudo ./rploader.sh download ${{ env.architecture-inputs.version }}
           ls
 
       - name: Add Ext
@@ -94,12 +94,13 @@ jobs:
           echo releasetag: ${{ inputs.releasetag }}
 
           cd tinycore-redpill
+          sudo chmod +x ./rploader.sh
           # yes y | sudo ./rploader.sh satamap now
           # yes y | sudo ./rploader.sh identifyusb now
           yes y | sudo ./rploader.sh serialgen ${{ inputs.platform }} now
-          yes y | sudo ./rploader.sh build ${{ env.architecture }}-${{ inputs.version }}
+          yes y | sudo ./rploader.sh build ${{ env.architecture-inputs.version }}
           if [-f "redpill-load/loader.img" ]; then
-            filename=redpill-${{ inputs.platform }}-${{ inputs.version }}-$(date +%Y%m%d%H%M%S).img
+            filename=redpill-${{ inputs.platform-inputs.version }}-$(date +%Y%m%d%H%M%S).img
             mv redpill-load/loader.img ${filename}
             echo "status=true" >> $GITHUB_ENV
             echo "filename=${filename}" >> $GITHUB_ENV
