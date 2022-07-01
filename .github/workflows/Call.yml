@@ -118,6 +118,9 @@ jobs:
           sudo sed -i 's/"Got/"${PWD} Got/g' ./rploader.sh
           sudo sed -i 's/"Using/"${PWD} Using/g' ./rploader.sh
 
+          sudo sed -i 's/git clone -b $LKM_BRANCH "$LKM_SOURCE_URL"/echo $LKM_BRANCH "$LKM_SOURCE_URL" && sudo git clone -b $LKM_BRANCH "$LKM_SOURCE_URL"/g' ./rploader.sh
+          sudo sed -i 's/git clone -b $LD_BRANCH "$LD_SOURCE_URL"/echo  $LD_BRANCH "$LD_SOURCE_URL" && sudo git clone -b $LD_BRANCH "$LD_SOURCE_URL"/g' ./rploader.sh
+
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
           ls
 
