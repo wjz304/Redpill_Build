@@ -34,6 +34,8 @@ jobs:
   initjob:
     name: Initialization
     runs-on: ubuntu-latest
+    outputs:
+      releasetag: ${{ steps.initenv.outputs.releasetag }}
     steps:
       - name: Init releasetag
         id: initenv
@@ -41,9 +43,9 @@ jobs:
           sudo timedatectl set-timezone "Asia/Shanghai"
           echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
 
-          echo ${{ outputs.releasetag }}
-          echo ${{ inputs.platforms }}
-          echo ${{ inputs.version }}
+          echo releasetag: ${{ steps.initenv.outputs.releasetag }}
+          echo platforms: ${{ inputs.platforms }}
+          echo version: ${{ inputs.version }}
 
   ds3615xs:
     name: Build DS3615xs
