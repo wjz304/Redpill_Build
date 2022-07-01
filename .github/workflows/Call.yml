@@ -57,9 +57,6 @@ jobs:
 
       - name: checkinput
         id: initinput
-        outputs:
-          toolkitv: ${{ env.architecture }}-${{ inputs.version }}
-          filename: redpill-${{ inputs.platform }}-${{ inputs.version }}-${{ env.datetime }}.img
         run: |
           echo ${{ inputs.platform }}
           echo ${{ inputs.version }}
@@ -90,8 +87,9 @@ jobs:
           echo "architecture=${architecture}" >> $GITHUB_ENV
           echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
-          echo architecture: ${{ env.architecture }}
-          echo datetime: ${{ env.datetime }}
+          echo "::set-output name=toolkitv::${{ env.architecture }}-${{ inputs.version }}"
+          echo "::set-output filename::redpill-${{ inputs.platform }}-${{ inputs.version }}-${{ env.datetime }}.img"
+
 
       - name: Init Env
         run: |
