@@ -101,8 +101,8 @@ jobs:
           sudo apt update
           sudo apt-get install -y curl bspatch jq
 
-          touch /usr/sbin/filetool.sh
-          sudo chmod +x /usr/sbin/filetool.sh
+          sudo touch /usr/local/sbin/filetool.sh
+          sudo chmod +x /usr/local/sbin/filetool.sh
 
           sudo mkdir /home/tc 
           git clone --depth 1 https://github.com/pocopico/tinycore-redpill.git /home/tc 
