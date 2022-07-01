@@ -87,8 +87,8 @@ jobs:
           echo "architecture=${architecture}" >> $GITHUB_ENV
           echo "datetime=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
-          echo "::set-output name=toolkitv::${{ env.architecture }}-${{ inputs.version }}"
-          echo "::set-output name=filename::redpill-${{ inputs.platform }}-${{ inputs.version }}-${{ env.datetime }}.img"
+          echo "::set-output name=toolkitv::${architecture}-${{ inputs.version }}"
+          echo "::set-output name=filename::redpill-${{ inputs.platform }}-${{ inputs.version }}-$(date +%Y%m%d%H%M%S).img"
 
 
       - name: Init Env
