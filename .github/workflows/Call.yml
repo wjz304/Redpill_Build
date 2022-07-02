@@ -145,8 +145,8 @@ jobs:
 
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
 
-          sudo sed -i ':gitdownload$:a\    sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/ext-manager.sh:g' ./rploader.sh
-          sudo sed -i ':gitdownload$:a\    sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/build-loader.sh:g' ./rploader.sh
+          sudo sed -i '/gitdownload$/a \ \ \ \ sudo sed -i "s|#\!\/bin\/bash|#!\/bin\/bash -x|g" .\/redpill-load\/ext-manager.sh' ./rploader.sh
+          sudo sed -i '/gitdownload$/a \ \ \ \ sudo sed -i "s|#\!\/bin\/bash|#!\/bin\/bash -x|g" .\/redpill-load\/build-loader.sh' ./rploader.sh
           ls
           cat ./rploader.sh
 
