@@ -161,7 +161,7 @@ jobs:
           sudo ./rploader.sh build ${{ steps.initinput.outputs.toolkitv }}
 
           if [ -f "redpill-load/loader.img" ]; then
-            mv redpill-load/loader.img ${{ steps.initinput.outputs.filename }}
+            sudo mv redpill-load/loader.img ${{ steps.initinput.outputs.filename }}
             echo "status=true" >> $GITHUB_ENV
           else
             echo "status=false" >> $GITHUB_ENV
