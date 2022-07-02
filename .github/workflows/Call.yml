@@ -113,7 +113,7 @@ jobs:
           sudo chmod +x ./filetool.sh #/usr/local/sbin/filetool.sh
 
           sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./rploader.sh
-          
+
           sudo sed -i "s|/home/tc|${PWD}|g" ./rploader.sh
           sudo sed -i "s|/mnt|${PWD}/mnt|g" ./rploader.sh
           sudo sed -i "s|filetool.sh|${PWD}/filetool.sh|g" ./rploader.sh
@@ -125,6 +125,9 @@ jobs:
           #sudo sed -i 's/git clone/sudo git clone/g' ./rploader.sh
 
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
+          
+          sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-loadext-manager.sh
+          sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/build-loader.sh
           ls
           cat ./rploader.sh
 
