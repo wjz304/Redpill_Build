@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
-    github.event.inputs:
+    inputs:
       platforms:
         description: 'all DS3615xs DS3617xs DS918+ DS920+ DS3622xs+'
         required: true
@@ -30,14 +30,14 @@ on:
 
       sataportmap: 
         description: 'SataPortMap'
-        default: '1'
         required: true
+        default: '1'
         type: string
 
       diskidxmap: 
         description: 'DiskIdxMap'
-        default: '10'
         required: true
+        default: '10'
         type: string
 
 jobs:
@@ -54,65 +54,65 @@ jobs:
           echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
 
           echo releasetag: ${{ steps.initenv.outputs.releasetag }}
-          echo platforms: ${{ github.event.inputs.platforms }}
-          echo version: ${{ github.event.inputs.version }}
+          echo platforms: ${{ inputs.platforms }}
+          echo version: ${{ inputs.version }}
 
   ds3615xs:
     name: Build DS3615xs
     needs: initjob
-    if: ${{ github.event.inputs.platforms == 'DS3615xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    if: ${{ inputs.platforms == 'DS3615xs' }} || ${{ inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3615xs
-      version: ${{ github.event.inputs.version }}
-      sataportmap: ${{ github.event.inputs.sataportmap }}
-      diskidxmap: ${{ github.event.inputs.diskidxmap }}
+      version: ${{ inputs.version }}
+      sataportmap: ${{ inputs.sataportmap }}
+      diskidxmap: ${{ inputs.diskidxmap }}
 
   ds3617xs:
     name: Build DS3617xs
     needs: initjob
-    if: ${{ github.event.inputs.platforms == 'DS3617xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    if: ${{ inputs.platforms == 'DS3617xs' }} || ${{ inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3617xs
-      version: ${{ github.event.inputs.version }}
-      sataportmap: ${{ github.event.inputs.sataportmap }}
-      diskidxmap: ${{ github.event.inputs.diskidxmap }}
+      version: ${{ inputs.version }}
+      sataportmap: ${{ inputs.sataportmap }}
+      diskidxmap: ${{ inputs.diskidxmap }}
 
   ds918p:
     name: Build DS918p
     needs: initjob
-    if: ${{ github.event.inputs.platforms == 'DS918+' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    if: ${{ inputs.platforms == 'DS918+' }} || ${{ inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS918+
-      version: ${{ github.event.inputs.version }}
-      sataportmap: ${{ github.event.inputs.sataportmap }}
-      diskidxmap: ${{ github.event.inputs.diskidxmap }}
+      version: ${{ inputs.version }}
+      sataportmap: ${{ inputs.sataportmap }}
+      diskidxmap: ${{ inputs.diskidxmap }}
 
   ds920p:
     name: Build DS920p
     needs: initjob
-    if: ${{ github.event.inputs.platforms  == 'DS920+' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    if: ${{ inputs.platforms == 'DS920+' }} || ${{ inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS920+
-      version: ${{ github.event.inputs.version }}
-      sataportmap: ${{ github.event.inputs.sataportmap }}
-      diskidxmap: ${{ github.event.inputs.diskidxmap }}
+      version: ${{ inputs.version }}
+      sataportmap: ${{ inputs.sataportmap }}
+      diskidxmap: ${{ inputs.diskidxmap }}
 
   ds3622xsp:
     name: Build DS3622xsp
     needs: initjob
-    if: ${{ github.event.inputs.platforms == 'DS3622xs+' }}  || ${{ github.event.inputs.platforms == 'all' }}
+    if: ${{ inputs.platforms == 'DS3622xs+' }} || ${{ inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3622xs+
-      version: ${{ github.event.inputs.version }}
-      sataportmap: ${{ github.event.inputs.sataportmap }}
-      diskidxmap: ${{ github.event.inputs.diskidxmap }}
+      version: ${{ inputs.version }}
+      sataportmap: ${{ inputs.sataportmap }}
+      diskidxmap: ${{ inputs.diskidxmap }}

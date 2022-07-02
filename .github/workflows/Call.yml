@@ -28,14 +28,14 @@ on:
 
       sataportmap: 
         description: 'SataPortMap'
-        default: '1'
         required: true
+        default: '1'
         type: string
 
       diskidxmap: 
         description: 'DiskIdxMap'
-        default: '10'
         required: true
+        default: '10'
         type: string
 
       releasetag:
