@@ -26,14 +26,14 @@ on:
         - 7.0.1-42218-JUN
         - 7.0.1-42218
 
-      SataPortMap: 
-        description: ''
+      sataportmap: 
+        description: 'SataPortMap'
         default: '1'
         required: true
         type: string
 
-      DiskIdxMap: 
-        description: ''
+      diskidxmap: 
+        description: 'DiskIdxMap'
         default: '10'
         required: true
         type: string
@@ -47,10 +47,6 @@ on:
 
   workflow_call:
     inputs:
-      releasetag:
-        required: true
-        type: string
-
       platform:
         required: true
         type: string
@@ -59,6 +55,17 @@ on:
         required: true
         type: string
 
+      sataportmap: 
+        required: true
+        type: string
+
+      diskidxmap: 
+        required: true
+        type: string
+
+      releasetag:
+        required: true
+        type: string
 
 jobs:
   Redpill-build:
@@ -168,8 +175,12 @@ jobs:
           yes y | sudo ./rploader.sh satamap now
           yes y | sudo ./rploader.sh identifyusb now
           yes y | sudo ./rploader.sh serialgen ${{ inputs.platform }} now
-
           cat user_config.json
+
+          sudo sed -i "s/\"SataPortMap\": .*,$/\"SataPortMap\": \"${{ inputs.sataportmap }}\",/" user_config.json
+          sudo sed -i "s/\"DiskIdxMap\": .*$/\"DiskIdxMap\": \"${{ inputs.diskidxmap }}\"/" user_config.json
+          cat user_config.json
+
           sudo ./rploader.sh build ${{ steps.initinput.outputs.toolkitv }}
 
           if [ -f "redpill-load/loader.img" ]; then

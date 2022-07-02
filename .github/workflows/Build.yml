@@ -28,14 +28,14 @@ on:
         - 7.0.1-42218-JUN
         - 7.0.1-42218
 
-      SataPortMap: 
+      sataportmap: 
         description: 'SataPortMap'
         default: '1'
         required: true
         type: string
 
-      DiskIdxMap: 
-        description: 'SataPortMap'
+      diskidxmap: 
+        description: 'DiskIdxMap'
         default: '10'
         required: true
         type: string
@@ -66,8 +66,8 @@ jobs:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3615xs
       version: ${{ github.event.inputs.version }}
-      SataPortMap: ${{ github.event.inputs.SataPortMap }}
-      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
+      sataportmap: ${{ github.event.inputs.sataportmap }}
+      diskidxmap: ${{ github.event.inputs.diskidxmap }}
 
   ds3617xs:
     name: Build DS3617xs
@@ -78,8 +78,8 @@ jobs:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3617xs
       version: ${{ github.event.inputs.version }}
-      SataPortMap: ${{ github.event.inputs.SataPortMap }}
-      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
+      sataportmap: ${{ github.event.inputs.sataportmap }}
+      diskidxmap: ${{ github.event.inputs.diskidxmap }}
 
   ds918p:
     name: Build DS918p
@@ -90,8 +90,8 @@ jobs:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS918+
       version: ${{ github.event.inputs.version }}
-      SataPortMap: ${{ github.event.inputs.SataPortMap }}
-      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
+      sataportmap: ${{ github.event.inputs.sataportmap }}
+      diskidxmap: ${{ github.event.inputs.diskidxmap }}
 
   ds920p:
     name: Build DS920p
@@ -102,8 +102,8 @@ jobs:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS920+
       version: ${{ github.event.inputs.version }}
-      SataPortMap: ${{ github.event.inputs.SataPortMap }}
-      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
+      sataportmap: ${{ github.event.inputs.sataportmap }}
+      diskidxmap: ${{ github.event.inputs.diskidxmap }}
 
   ds3622xsp:
     name: Build DS3622xsp
@@ -114,5 +114,5 @@ jobs:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3622xs+
       version: ${{ github.event.inputs.version }}
-      SataPortMap: ${{ github.event.inputs.SataPortMap }}
-      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
+      sataportmap: ${{ github.event.inputs.sataportmap }}
+      diskidxmap: ${{ github.event.inputs.diskidxmap }}
