@@ -26,6 +26,18 @@ on:
         - 7.0.1-42218-JUN
         - 7.0.1-42218
 
+      SataPortMap: 
+        description: ''
+        default: '1'
+        required: true
+        type: string
+
+      DiskIdxMap: 
+        description: ''
+        default: '10'
+        required: true
+        type: string
+
       releasetag:
         description: 'test'
         required: true
@@ -126,8 +138,8 @@ jobs:
 
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
 
-          sudo sed -i 's:gitdownload$:a\    sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/ext-manager.sh:g' ./rploader.sh
-          sudo sed -i 's:gitdownload$:a\    sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/build-loader.sh:g' ./rploader.sh
+          sudo sed -i ':gitdownload$:a\    sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/ext-manager.sh:g' ./rploader.sh
+          sudo sed -i ':gitdownload$:a\    sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/build-loader.sh:g' ./rploader.sh
           ls
           cat ./rploader.sh
 

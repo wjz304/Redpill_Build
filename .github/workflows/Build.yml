@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
-    inputs:
+    github.event.inputs:
       platforms:
         description: 'all DS3615xs DS3617xs DS918+ DS920+ DS3622xs+'
         required: true
@@ -28,7 +28,17 @@ on:
         - 7.0.1-42218-JUN
         - 7.0.1-42218
 
+      SataPortMap: 
+        description: 'SataPortMap'
+        default: '1'
+        required: true
+        type: string
 
+      DiskIdxMap: 
+        description: 'SataPortMap'
+        default: '10'
+        required: true
+        type: string
 
 jobs:
   initjob:
@@ -44,55 +54,65 @@ jobs:
           echo "::set-output name=releasetag::$(date +"%Y.%m.%d-%H%M")"
 
           echo releasetag: ${{ steps.initenv.outputs.releasetag }}
-          echo platforms: ${{ inputs.platforms }}
-          echo version: ${{ inputs.version }}
+          echo platforms: ${{ github.event.inputs.platforms }}
+          echo version: ${{ github.event.inputs.version }}
 
   ds3615xs:
     name: Build DS3615xs
     needs: initjob
-    if: ${{ inputs.platforms == 'DS3615xs' }}  || ${{ inputs.platforms == 'all' }}
+    if: ${{ github.event.inputs.platforms == 'DS3615xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3615xs
-      version: ${{ inputs.version }}
+      version: ${{ github.event.inputs.version }}
+      SataPortMap: ${{ github.event.inputs.SataPortMap }}
+      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
 
   ds3617xs:
     name: Build DS3617xs
     needs: initjob
-    if: ${{ inputs.platforms == 'DS3617xs' }}  || ${{ inputs.platforms == 'all' }}
+    if: ${{ github.event.inputs.platforms == 'DS3617xs' }}  || ${{ github.event.inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3617xs
-      version: ${{ inputs.version }}
+      version: ${{ github.event.inputs.version }}
+      SataPortMap: ${{ github.event.inputs.SataPortMap }}
+      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
 
   ds918p:
     name: Build DS918p
     needs: initjob
-    if: ${{ inputs.platforms == 'DS918+' }}  || ${{ inputs.platforms == 'all' }}
+    if: ${{ github.event.inputs.platforms == 'DS918+' }}  || ${{ github.event.inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS918+
-      version: ${{ inputs.version }}
+      version: ${{ github.event.inputs.version }}
+      SataPortMap: ${{ github.event.inputs.SataPortMap }}
+      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
 
   ds920p:
     name: Build DS920p
     needs: initjob
-    if: ${{ inputs.platforms  == 'DS920+' }}  || ${{ inputs.platforms == 'all' }}
+    if: ${{ github.event.inputs.platforms  == 'DS920+' }}  || ${{ github.event.inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS920+
-      version: ${{ inputs.version }}
+      version: ${{ github.event.inputs.version }}
+      SataPortMap: ${{ github.event.inputs.SataPortMap }}
+      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
 
   ds3622xsp:
     name: Build DS3622xsp
     needs: initjob
-    if: ${{ inputs.platforms == 'DS3622xs+' }}  || ${{ inputs.platforms == 'all' }}
+    if: ${{ github.event.inputs.platforms == 'DS3622xs+' }}  || ${{ github.event.inputs.platforms == 'all' }}
     uses: ./.github/workflows/Call.yml
     with:
       releasetag: ${{ needs.initjob.outputs.releasetag }}
       platform: DS3622xs+
-      version: ${{ inputs.version }}
+      version: ${{ github.event.inputs.version }}
+      SataPortMap: ${{ github.event.inputs.SataPortMap }}
+      DiskIdxMap: ${{ github.event.inputs.DiskIdxMap }}
