@@ -126,8 +126,7 @@ jobs:
 
           sudo ./rploader.sh download ${{ steps.initinput.outputs.toolkitv }}
 
-          sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/ext-manager.sh
-          sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/build-loader.sh
+          sudo sed -i 's:gitdownload$:gitdownload && sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/ext-manager.sh && sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./redpill-load/build-loader.sh:g' ./rploader.sh
           ls
           cat ./rploader.sh
 
@@ -174,5 +173,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ inputs.releasetag }}
-          files: ${{ steps.initinput.outputs.filename }}
+          files: tinycore-redpill/${{ steps.initinput.outputs.filename }}
           
