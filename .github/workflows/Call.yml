@@ -99,6 +99,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           
           sudo apt update
+          sudo apt upgrade -y
           sudo apt install -y vim curl bspatch jq bc git kmod flex cpio bison gettext dosfstools build-essential libcurl4 libcurl4-openssl-dev ca-certificates libssl-dev
 
           sudo git clone --depth 1 https://github.com/pocopico/tinycore-redpill.git tinycore-redpill
@@ -111,6 +112,8 @@ jobs:
           sudo touch ./filetool.sh  #/usr/local/sbin/filetool.sh
           sudo chmod +x ./filetool.sh #/usr/local/sbin/filetool.sh
 
+          sudo sed -i "s|#!/bin/bash|#!/bin/bash -x|g" ./rploader.sh
+          
           sudo sed -i "s|/home/tc|${PWD}|g" ./rploader.sh
           sudo sed -i "s|/mnt|${PWD}/mnt|g" ./rploader.sh
           sudo sed -i "s|filetool.sh|${PWD}/filetool.sh|g" ./rploader.sh
